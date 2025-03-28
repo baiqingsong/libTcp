@@ -56,7 +56,7 @@ public class TcpClientFactory {
      */
     public void sendMessage(String message) {
         if (output != null) {
-            output.println(message);
+            new Thread(() -> output.println(message)).start();
         }
     }
 
