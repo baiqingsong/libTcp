@@ -241,13 +241,9 @@ public class TcpServerFactory {
             serverSocket = ss;  // 在 bind 前赋值，确保 stopServer 可以关闭它
             ss.bind(new java.net.InetSocketAddress(serverPort));
             // 会话检查：若 stopServer+startServer 已发生，或已停止，旧线程不应修改共享状态
+            // 紧贴 serverStarted.set(true) 之前校验，最小化 TOCTOU 窗口
             if (sessionId.get() != session || !isRunning.get()) {
                 return; // finally 会关闭 ss
-            }
-            // 紧贴状态修改前再次校验，防止 stopServer+startServer 在上方检查后执行，
-            // 导致 serverStarted=true 污染新会话
-            if (sessionId.get() != session || !isRunning.get()) {
-                return;
             }
             serverStarted.set(true);
             notifyServerStarted(serverPort);
