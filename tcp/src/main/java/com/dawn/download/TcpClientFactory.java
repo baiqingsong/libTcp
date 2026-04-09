@@ -1,4 +1,4 @@
-package com.dawn.download;
+﻿package com.dawn.download;
 
 import android.os.Handler;
 import android.os.Looper;
