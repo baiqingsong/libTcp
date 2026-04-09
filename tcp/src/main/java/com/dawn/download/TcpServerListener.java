@@ -1,8 +1,10 @@
 package com.dawn.download;
 
 public interface TcpServerListener {
-    void onReceiveData(String data);
-    void onConnect();
-    void onDisconnect();
-    void onConnectFailed();
+    void onServerStarted(int port);
+    void onServerStopped();
+    void onClientConnected(String clientId);
+    void onClientDisconnected(String clientId);
+    void onReceiveData(String clientId, String data);
+    void onError(String errorMessage);
 }
